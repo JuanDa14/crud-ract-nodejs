@@ -1,28 +1,23 @@
 import React, { useState, useEffect } from "react";
 import Card from "../components/Card";
-import "../css/Style.css";
+import axios from "axios";
 
 function Lista() {
   const [data, setdata] = useState([]);
 
-  const url = "http://localhost:3001/personajes";
-
-  const fetchApi = (url) => {
-    fetch(url)
-      .then((respuesta) => respuesta.json())
-      .then((datos) => setdata(datos))
-      .catch((error) => console.log(error));
+  const getData = async () => {
+    const { data } = await axios({
+      url: "http://localhost:3001/v1/personajes",
+      method: "GET",
+    });
+    setdata(data);
   };
 
   useEffect(() => {
-    fetchApi(url);
+    getData();
   }, []);
 
-  return (
-    <div>
-      <Card data={data}></Card>
-    </div>
-  );
+  return <Card data={data}></Card>;
 }
 
 export default Lista;

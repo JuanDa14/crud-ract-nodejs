@@ -1,18 +1,21 @@
-import "../css/Style.css";
-
 function Card({ data }) {
   return (
     <div className="container">
-      <div className="row text-center">
+      <div className="row">
         {data.map((respuesta, index) => (
-          <div key={index} className="col-12 col-md-4 mt-4">
-            <div className="card">
-              <div className="card-header">{respuesta.nombre_superheroe}</div>
+          <div key={index} className="col-12 col-sm-6 col-md-6 col-lg-4 p-3">
+            <div className="card shadow h-100">
+              <img src={respuesta.imagen} className="img-fluid" />
               <div className="card-body">
-                <h4 className="card-title">
-                  {respuesta.nombre} {respuesta.apellidos}
+                <h4 className=" h6 card-title font-weight-bold text-secondary">
+                  {respuesta.nombreSuperHeroe}
                 </h4>
-                <p className="card-text">{respuesta.descripcion}</p>
+                <p className="text-secondary">
+                  {respuesta.nombre} {respuesta.apellido}
+                </p>
+                <p className="card-subtitle text-secondary">
+                  {respuesta.descripcion}
+                </p>
               </div>
             </div>
           </div>

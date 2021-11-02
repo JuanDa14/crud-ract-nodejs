@@ -1,55 +1,56 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import "../css/Style.css";
 
 function Index() {
   const [data, setData] = useState([]);
 
-  const url = "http://localhost:3001/personajes";
-
-  const getData = () => {
-    const options = {
+  const getData = async () => {
+    const { data } = await axios({
+      url: `http://localhost:3001/v1/personajes`,
       method: "GET",
-    };
-    fetch(url, options)
-      .then((respuesta) => respuesta.json())
-      .then((datos) => setData(datos))
-      .catch((error) => console.log(error));
+    });
+    setData(data);
   };
 
   useEffect(() => {
     getData();
   }, []);
 
-  const deleteOne = (id) => {
-    const options = {
+  const deleteOne = async (id) => {
+    await axios({
+      url: `http://localhost:3001/v1/personajes/${id}`,
       method: "DELETE",
-    };
-    fetch(`${url}/${id}`, options)
-      .then((respuesta) => respuesta)
-      .catch((error) => console.log(error));
-      getData();
+    });
+    getData();
   };
 
   return (
-    <div className="container text-center">
+    <div className="container">
       <div className="col-12 mt-4">
-        <table className="table">
+        <table className="table text-center">
           <thead>
             <tr>
               <th>Nombre</th>
               <th>Apellidos</th>
               <th>Personaje</th>
+              <th>Imagen</th>
               <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
             {data.map((respuesta, index) => (
               <tr key={index}>
-                <td>{respuesta.nombre}</td>
-                <td>{respuesta.apellidos}</td>
-                <td>{respuesta.nombre_superheroe}</td>
+                <td className="imagen">{respuesta.nombre}</td>
+                <td>{respuesta.apellido}</td>
+                <td>{respuesta.nombreSuperHeroe}</td>
+                <td>
+                  <img
+                    src={respuesta.imagen}
+                    className="img-fluid"
+                    width="200"
+                  />
+                </td>
                 <td>
                   <div className="row">
                     <div className="col-6">
